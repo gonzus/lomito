@@ -1,4 +1,6 @@
-function myLogger(req, res, next) {
+import express = require('express');
+
+function myLogger(req: express.Request, res: express.Response, next: any) {
     console.log(`=== ${ req.method } ===`);
     console.log("hostname", req.hostname);
     console.log("originalUrl", req.originalUrl);
