@@ -1,9 +1,10 @@
-const express = require('express');
+export {};
+import express = require('express');
 const router = express.Router();
 
 const qp = require('../models/people.js');
 
-router.use(function timeLog (req, res, next) {
+router.use(function timeLog(req: express.Request, res: express.Response, next: any) {
   console.log('People Time: ', Date.now())
   next()
 });

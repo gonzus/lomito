@@ -1,9 +1,10 @@
-const express = require('express');
+export {};
+import express = require('express');
 const router = express.Router();
 
 const qo = require('../models/countries.js');
 
-router.use(function timeLog (req, res, next) {
+router.use(function timeLog(req: express.Request, res: express.Response, next: any) {
   console.log('Countries Time: ', Date.now())
   next()
 });

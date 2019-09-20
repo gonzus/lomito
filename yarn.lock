@@ -39,6 +39,11 @@
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.7.tgz#c8fa532b60a0042219cdf173ca21a975ef0666ad"
   integrity sha512-wE2v81i4C4Ol09RtsWFAqg3BUitWbHSpSlIo+bNdsCJijO9sjme+zm+73ZMCa/qMC8UEERxzGbvmr1cffo2SiQ==
 
+"@types/mariasql@^0.1.30":
+  version "0.1.30"
+  resolved "https://registry.yarnpkg.com/@types/mariasql/-/mariasql-0.1.30.tgz#944446a351452169e10a68fbff7f20c6e0bc5b34"
+  integrity sha512-mbpBHEjsf7eSwgPVx2DYFHg7IvduUsOheCPo9HDZAvKxnwwuK0DtuG78Oe+s0gf7X6Q89w+I67iMJYA+B5YO2g==
+
 "@types/mime@*":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.1.tgz#dc488842312a7f075149312905b5e3c0b054c79d"

@@ -1,4 +1,4 @@
-const express = require('express');
+import express = require('express');
 
 const app = express();
 const port = 3000;
@@ -7,10 +7,8 @@ const myLogger = require('./middlewares/logger.js');
 
 app.use(myLogger)
 
-app.use('/people', require('./routes/people.js'));
-app.use('/cities', require('./routes/cities.js'));
-app.use('/countries', require('./routes/countries.js'));
-app.use('/all', require('./routes/all.js'));
+const routes = ['people', 'cities', 'countries', 'all'];
+routes.forEach(r => app.use(`/${r}`, require(`./routes/${r}.js`)));
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}!`);
