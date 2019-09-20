@@ -4,11 +4,6 @@ const router = express.Router();
 
 const qo = require('../models/countries.js');
 
-router.use(function timeLog(req: express.Request, res: express.Response, next: any) {
-  console.log('Countries Time: ', Date.now())
-  next()
-});
-
 async function getData() {
     console.log("Getting countries");
     const po = qo();

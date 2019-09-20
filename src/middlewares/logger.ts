@@ -1,14 +1,18 @@
 import express = require('express');
 
 function myLogger(req: express.Request, res: express.Response, next: any) {
-    console.log(`=== ${ req.method } ===`);
-    console.log("hostname", req.hostname);
-    console.log("originalUrl", req.originalUrl);
-    console.log("params", req.params);
-    console.log("headers", req.headers);
-    console.log("cookies", req.cookies);
-    console.log(`--- ${ req.method } ---`);
-
+    const now = new Date();
+    console.log(`===== ${now.toISOString()} =====`);
+    console.log({
+        method     : req.method,
+        hostname   : req.hostname,
+        originalUrl: req.originalUrl,
+        path       : req.path,
+        query      : req.query,
+        params     : req.params,
+        headers    : req.headers,
+        cookies    : req.cookies,
+    });
     next();
 }
 

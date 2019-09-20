@@ -6,11 +6,6 @@ const qp = require('../models/people.js');
 const qi = require('../models/cities.js');
 const qo = require('../models/countries.js');
 
-router.use(function timeLog(req: express.Request, res: express.Response, next: any) {
-  console.log('All Time: ', Date.now())
-  next()
-});
-
 async function getData() {
     console.log("Getting ALL");
     const pp = qp();
