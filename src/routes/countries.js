@@ -11,7 +11,7 @@ router.use(function timeLog (req, res, next) {
 async function getData() {
     console.log("Getting countries");
     const po = qo();
-    let [countries] = await Promise.all([po]);
+    const [countries] = await Promise.all([po]);
     console.log("Got countries");
     return countries;
 }

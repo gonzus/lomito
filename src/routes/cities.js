@@ -11,7 +11,7 @@ router.use(function timeLog (req, res, next) {
 async function getData() {
     console.log("Getting cities");
     const pi = qi();
-    let [cities] = await Promise.all([pi]);
+    const [cities] = await Promise.all([pi]);
     console.log("Got cities");
     return cities;
 }

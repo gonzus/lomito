@@ -11,7 +11,7 @@ router.use(function timeLog (req, res, next) {
 async function getData() {
     console.log("Getting people");
     const pp = qp();
-    let [people] = await Promise.all([pp]);
+    const [people] = await Promise.all([pp]);
     console.log("Got people");
     return people;
 }

@@ -15,7 +15,7 @@ async function getData() {
     const pp = qp();
     const pi = qi();
     const po = qo();
-    let [people, cities, countries] = await Promise.all([pp, pi, po]);
+    const [people, cities, countries] = await Promise.all([pp, pi, po]);
     console.log("Got ALL");
     return { people: people, cities: cities, countries: countries };
 }
