@@ -1,11 +1,10 @@
-const mysql = require('mysql');
-
-const conn = mysql.createConnection({
-  host: 'localhost',
-  user: 'gonzo',
-  password: 'gonzo',
-  database: 'trips'
+const mariadb = require('mariadb');
+const pool = mariadb.createPool({
+    host: 'localhost',
+    user: 'gonzo',
+    password: 'gonzo',
+    database: 'trips',
+    connectionLimit: 5,
 });
-conn.connect(); // TODO: when to disconnect?
 
-module.exports = conn;
+module.exports = pool;
