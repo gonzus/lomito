@@ -37,22 +37,38 @@ app.get('/', (req, res) => {
 app.get('/cities', (req, res) => {
     console.log("All cities");
 
-    conn.query('SELECT * FROM cities ORDER BY name', function (err, rows, fields) {
+    conn.query('SELECT I.name city, O.name country FROM cities I JOIN countries O ON I.country_id = O.id ORDER BY 1, 2', function (err, rows, fields) {
         if (err) throw err
-        let data = rows.map(r => r.name);
+        let data = rows.map(r => {
+            return { city: r.city, country: r.country };
+        });
         console.log("cities", data);
+        res.json(data);
+    });
+});
+
+app.get('/countries', (req, res) => {
+    console.log("All countries");
+
+    conn.query('SELECT O.name country FROM countries O ORDER BY 1', function (err, rows, fields) {
+        if (err) throw err
+        let data = rows.map(r => {
+            return { country: r.country };
+        });
+        console.log("countries", data);
         res.json(data);
     });
 });
 
 app.get('/cities/:country', (req, res) => {
     const country_id = req.params.country;
-    console.log("Cities for country " + country_id);
 
-    conn.query('SELECT I.name city, O.name country FROM cities I JOIN countries O ON I.country_id = O.id WHERE O.id = ? ORDER BY 1', [ country_id ], function (err, rows, fields) {
+    conn.query('SELECT I.name city, O.name country FROM cities I JOIN countries O ON I.country_id = O.id WHERE O.id = ? ORDER BY 1, 2', [ country_id ], function (err, rows, fields) {
         if (err) throw err
-        let data = rows.map(r => r.city);
-        console.log("cities", data);
+        let data = rows.map(r => {
+            return { city: r.city, country: r.country };
+        });
+        console.log("cities for country " + country_id, data);
         res.json(data);
     });
 });
