@@ -2,12 +2,13 @@ export {};
 import express = require('express');
 const router = express.Router();
 
-const qp = require('../models/people.js');
+const models = ['people'];
+const queries = models.map(m => require(`../models/${m}.js`));
 
 async function getData() {
     console.log("Getting people");
-    const pp = qp();
-    const [people] = await Promise.all([pp]);
+    const promises = queries.map(query => query());
+    const [people] = await Promise.all(promises);
     console.log("Got people");
     return people;
 }

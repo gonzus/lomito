@@ -2,12 +2,13 @@ export {};
 import express = require('express');
 const router = express.Router();
 
-const qi = require('../models/cities.js');
+const models = ['cities'];
+const queries = models.map(m => require(`../models/${m}.js`));
 
 async function getData() {
     console.log("Getting cities");
-    const pi = qi();
-    const [cities] = await Promise.all([pi]);
+    const promises = queries.map(query => query());
+    const [cities] = await Promise.all(promises);
     console.log("Got cities");
     return cities;
 }
