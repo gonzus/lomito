@@ -4,11 +4,6 @@ const router = express.Router();
 
 const qi = require('../models/cities.js');
 
-router.use(function timeLog(req: express.Request, res: express.Response, next: any) {
-  console.log('Cities Time: ', Date.now())
-  next()
-});
-
 async function getData() {
     console.log("Getting cities");
     const pi = qi();

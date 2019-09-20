@@ -4,11 +4,6 @@ const router = express.Router();
 
 const qp = require('../models/people.js');
 
-router.use(function timeLog(req: express.Request, res: express.Response, next: any) {
-  console.log('People Time: ', Date.now())
-  next()
-});
-
 async function getData() {
     console.log("Getting people");
     const pp = qp();
