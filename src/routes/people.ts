@@ -12,11 +12,11 @@ async function getPeopleAll() {
     return people;
 }
 
-async function getPeopleById(person_id: any) {
-    console.log("Getting people by id", person_id);
+async function getPersonById(person_id: any) {
+    console.log("Getting person by id", person_id);
     const promise = peopleQueries.getById(person_id);
     const [people] = await Promise.all([promise]);
-    console.log("Got people by id");
+    console.log("Got person by id");
     return people;
 }
 
@@ -28,7 +28,7 @@ router.get('/all', (req, res) => {
 
 router.get('/by_id', (req, res) => {
     const person_id = req.query.person_id;
-    (function(){ getPeopleById(person_id).then(data => {
+    (function(){ getPersonById(person_id).then(data => {
         res.json(data);
     })})();
 });

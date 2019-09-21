@@ -12,7 +12,7 @@ async function getCitiesAll() {
     return cities;
 }
 
-async function getCitiesById(city_id: any) {
+async function getCityById(city_id: any) {
     console.log("Getting city by id", city_id);
     const promise = citiesQueries.getById(city_id);
     const [city] = await Promise.all([promise]);
@@ -28,7 +28,7 @@ router.get('/all', (req, res) => {
 
 router.get('/by_id', (req, res) => {
     const city_id = req.query.city_id;
-    (function(){ getCitiesById(city_id).then(data => {
+    (function(){ getCityById(city_id).then(data => {
         res.json(data);
     })})();
 });

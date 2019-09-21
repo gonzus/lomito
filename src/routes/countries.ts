@@ -12,11 +12,11 @@ async function getCountriesAll() {
     return countries;
 }
 
-async function getCountriesById(country_id: any) {
-    console.log("Getting countries by id", country_id);
+async function getCountryById(country_id: any) {
+    console.log("Getting country by id", country_id);
     const promise = countriesQueries.getById(country_id);
     const [countries] = await Promise.all([promise]);
-    console.log("Got countries by id");
+    console.log("Got country by id");
     return countries;
 }
 
@@ -28,7 +28,7 @@ router.get('/all', (req, res) => {
 
 router.get('/by_id', (req, res) => {
     const country_id = req.query.country_id;
-    (function(){ getCountriesById(country_id).then(data => {
+    (function(){ getCountryById(country_id).then(data => {
         res.json(data);
     })})();
 });
