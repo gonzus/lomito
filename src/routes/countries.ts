@@ -28,7 +28,7 @@ router.get('/all', (req, res) => {
 });
 
 router.get('/by_id', (req, res) => {
-    const country_id = req.query.country_id;
+    const country_id = req.query.country_id || req.query.id;
     if (!/^[0-9]+$/.test(country_id)) {
         res.end();
         return;
