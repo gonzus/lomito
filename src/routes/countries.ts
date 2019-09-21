@@ -28,6 +28,10 @@ router.get('/all', (req, res) => {
 
 router.get('/by_id', (req, res) => {
     const country_id = req.query.country_id;
+    if (!/^[0-9]+$/.test(country_id)) {
+        res.end();
+        return;
+    }
     (function(){ getCountryById(country_id).then(data => {
         res.json(data);
     })})();
