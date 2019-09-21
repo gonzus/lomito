@@ -21,9 +21,10 @@ async function getCityById(city_id: any) {
 }
 
 router.get('/all', (req, res) => {
-    (function(){ getCitiesAll().then(data => {
+    (async function(){
+        const data = await getCitiesAll();
         res.json(data);
-    })})();
+    })();
 });
 
 router.get('/by_id', (req, res) => {
@@ -32,9 +33,10 @@ router.get('/by_id', (req, res) => {
         res.end();
         return;
     }
-    (function(){ getCityById(city_id).then(data => {
+    (async function() {
+        const data = await getCityById(city_id);
         res.json(data);
-    })})();
+    })();
 });
 
 module.exports = router;
