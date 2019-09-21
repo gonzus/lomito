@@ -7,7 +7,7 @@ const myLogger = require('./middlewares/logger.js');
 
 app.use(myLogger)
 
-const routes = ['people', 'cities', 'countries', 'all'];
+const routes = ['people', 'cities', 'countries', 'data'];
 routes.forEach(r => app.use(`/${r}`, require(`./routes/${r}.js`)));
 
 app.listen(port, () => {

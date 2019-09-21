@@ -2,25 +2,36 @@ export {};
 import express = require('express');
 const router = express.Router();
 
-const models = ['countries'];
-const queries = models.map(m => require(`../models/${m}.js`));
+const countriesQueries = require(`../models/countries.js`);
 
-async function getData() {
-    console.log("Getting countries");
-    const promises = queries.map(query => query());
-    const [countries] = await Promise.all(promises);
+async function getCountriesAll() {
+    console.log("Getting all countries");
+    const promise = countriesQueries.getAll();
+    const [countries] = await Promise.all([promise]);
     console.log("Got countries");
     return countries;
 }
 
-router.get('/', (req, res) => {
-    console.log("Calling for data");
-    const getter = function(){ getData().then(data => {
-        console.log("Called for data", data);
-        console.log("Returning JSON");
+async function getCountriesById(country_id: any) {
+    console.log("Getting countries by id", country_id);
+    const promise = countriesQueries.getById(country_id);
+    const [countries] = await Promise.all([promise]);
+    console.log("Got countries by id");
+    return countries;
+}
+
+router.get('/all', (req, res) => {
+    (function(){ getCountriesAll().then(data => {
         res.json(data);
-    })};
-    getter();
+    })})();
 });
+
+router.get('/by_id', (req, res) => {
+    const country_id = req.query.country_id;
+    (function(){ getCountriesById(country_id).then(data => {
+        res.json(data);
+    })})();
+});
+
 
 module.exports = router;

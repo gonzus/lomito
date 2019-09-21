@@ -2,25 +2,35 @@ export {};
 import express = require('express');
 const router = express.Router();
 
-const models = ['people'];
-const queries = models.map(m => require(`../models/${m}.js`));
+const peopleQueries = require(`../models/people.js`);
 
-async function getData() {
-    console.log("Getting people");
-    const promises = queries.map(query => query());
-    const [people] = await Promise.all(promises);
+async function getPeopleAll() {
+    console.log("Getting all people");
+    const promise = peopleQueries.getAll();
+    const [people] = await Promise.all([promise]);
     console.log("Got people");
     return people;
 }
 
-router.get('/', (req, res) => {
-    console.log("Calling for data");
-    const getter = function(){ getData().then(data => {
-        console.log("Called for data", data);
-        console.log("Returning JSON");
+async function getPeopleById(person_id: any) {
+    console.log("Getting people by id", person_id);
+    const promise = peopleQueries.getById(person_id);
+    const [people] = await Promise.all([promise]);
+    console.log("Got people by id");
+    return people;
+}
+
+router.get('/all', (req, res) => {
+    (function(){ getPeopleAll().then(data => {
         res.json(data);
-    })};
-    getter();
+    })})();
+});
+
+router.get('/by_id', (req, res) => {
+    const person_id = req.query.person_id;
+    (function(){ getPeopleById(person_id).then(data => {
+        res.json(data);
+    })})();
 });
 
 module.exports = router;
