@@ -30,7 +30,8 @@ async function getById(country_id: number) {
             SELECT C.id, C.name
             FROM countries C
             WHERE id = ?
-            ORDER BY 2`, [country_id],
+            ORDER BY 2`,
+            [country_id],
         );
         const data = rows.slice();
         console.log("Queried countries by id", data);

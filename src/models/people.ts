@@ -30,7 +30,8 @@ async function getById(person_id: number) {
             SELECT P.id, P.name
             FROM people P
             WHERE id = ?
-            ORDER BY 2`, [person_id],
+            ORDER BY 2`,
+            [person_id],
         );
         const data = rows.slice();
         console.log("Queried people by id", data);
