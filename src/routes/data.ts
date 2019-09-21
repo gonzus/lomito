@@ -33,9 +33,10 @@ async function getDataAll() {
 }
 
 router.get('/all', (req, res) => {
-    (function(){ getDataAll().then(data => {
+    (async function() {
+        const data = getDataAll();
         res.json(data);
-    })})();
+    })();
 });
 
 module.exports = router;

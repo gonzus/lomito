@@ -21,9 +21,10 @@ async function getCountryById(country_id: any) {
 }
 
 router.get('/all', (req, res) => {
-    (function(){ getCountriesAll().then(data => {
+    (async function() {
+        const data = await getCountriesAll();
         res.json(data);
-    })})();
+    })();
 });
 
 router.get('/by_id', (req, res) => {
@@ -32,9 +33,10 @@ router.get('/by_id', (req, res) => {
         res.end();
         return;
     }
-    (function(){ getCountryById(country_id).then(data => {
+    (async function() {
+        const data = await getCountryById(country_id);
         res.json(data);
-    })})();
+    })();
 });
 
 

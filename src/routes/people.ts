@@ -21,9 +21,10 @@ async function getPersonById(person_id: any) {
 }
 
 router.get('/all', (req, res) => {
-    (function(){ getPeopleAll().then(data => {
+    (async function() {
+        const data = await getPeopleAll();
         res.json(data);
-    })})();
+    })();
 });
 
 router.get('/by_id', (req, res) => {
@@ -32,9 +33,10 @@ router.get('/by_id', (req, res) => {
         res.end();
         return;
     }
-    (function(){ getPersonById(person_id).then(data => {
+    (async function() {
+        const data = await getPersonById(person_id);
         res.json(data);
-    })})();
+    })();
 });
 
 module.exports = router;
