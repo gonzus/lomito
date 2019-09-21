@@ -4,8 +4,10 @@ const pool: any = require('../db.js');
 async function getAll() {
     let conn: any;
     try {
-        conn = await pool.getConnection();
         console.log("Querying people");
+        conn = await pool.getConnection();
+        console.log("Pool has %d / %d / %d active / total / idle connections",
+                    pool.activeConnections(), pool.totalConnections(), pool.idleConnections());
         const rows = await conn.query(`
             SELECT P.id, P.name
             FROM people P
@@ -17,7 +19,7 @@ async function getAll() {
     } catch (err) {
         throw err;
     } finally {
-        if (conn) conn.end();
+        if (conn) conn.release();
     }
 }
 
