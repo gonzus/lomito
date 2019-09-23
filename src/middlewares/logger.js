@@ -1,6 +1,6 @@
-import express = require('express');
+const express = require('express');
 
-function myLogger(req: express.Request, res: express.Response, next: any) {
+function myLogger(req, res, next) {
     const now = new Date();
     console.log(`===== ${now.toISOString()} =====`);
     console.log({

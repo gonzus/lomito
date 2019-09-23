@@ -1,20 +1,19 @@
-export {};
-const pool: any = require('../db.js');
+const pool = require('../db.js');
 
 async function getAll() {
-    let conn: any;
+    let conn;
     try {
-        console.log("Querying countries");
+        console.log("Querying cities");
         conn = await pool.getConnection();
         console.log("Pool has %d / %d / %d active / total / idle connections",
                     pool.activeConnections(), pool.totalConnections(), pool.idleConnections());
         const rows = await conn.query(`
             SELECT C.id, C.name
-            FROM countries C
+            FROM cities C
             ORDER BY 2`,
         );
         const data = rows.slice();
-        console.log("Queried all countries", data);
+        console.log("Queried all cities", data);
         return data;
     } catch (err) {
         throw err;
@@ -23,20 +22,20 @@ async function getAll() {
     }
 }
 
-async function getById(country_id: number) {
-    let conn: any;
+async function getById(city_id) {
+    let conn;
     try {
         conn = await pool.getConnection();
-        console.log("Querying countries by id", country_id);
+        console.log("Querying cities by id", city_id);
         const rows = await conn.query(`
             SELECT C.id, C.name
-            FROM countries C
+            FROM cities C
             WHERE id = ?
             ORDER BY 2`,
-            [country_id],
+            [city_id],
         );
         const data = rows.slice();
-        console.log("Queried countries by id", data);
+        console.log("Queried cities by id", data);
         return data;
     } catch (err) {
         throw err;

@@ -1,4 +1,4 @@
-import mariadb = require('mariadb');
+const mariadb = require('mariadb');
 const pool = mariadb.createPool({
     host: 'localhost',
     user: 'gonzo',

@@ -1,5 +1,4 @@
-export {};
-import express = require('express');
+const express = require('express');
 const router = express.Router();
 
 // this is our master list of models
@@ -7,7 +6,7 @@ const models = ['people', 'cities', 'countries'];
 
 // call `require` for each model and store results keyed by model name
 // each value is the set of queries supported by that model
-const queries = models.reduce(function(obj: {[key: string]: any}, item) {
+const queries = models.reduce(function(obj, item) {
     obj[item] = require(`../models/${item}.js`);
     return obj;
 }, {});
@@ -23,7 +22,7 @@ async function getDataAll() {
     const results = await Promise.all(promises);
 
     // create a new object keyed by model name with the data returned by promises
-    const data = models.reduce(function(obj: {[key: string]: object}, item, index) {
+    const data = models.reduce(function(obj, item, index) {
         obj[item] = results[index];
         return obj;
     }, {});
@@ -34,7 +33,7 @@ async function getDataAll() {
 
 router.get('/all', (req, res) => {
     (async function() {
-        const data = getDataAll();
+        const data = await getDataAll();
         res.json(data);
     })();
 });

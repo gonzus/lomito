@@ -1,5 +1,4 @@
-export {};
-import express = require('express');
+const express = require('express');
 const router = express.Router();
 
 const citiesQueries = require(`../models/cities.js`);
@@ -12,7 +11,7 @@ async function getCitiesAll() {
     return cities;
 }
 
-async function getCityById(city_id: any) {
+async function getCityById(city_id) {
     console.log("Getting city by id", city_id);
     const promise = citiesQueries.getById(city_id);
     const [city] = await Promise.all([promise]);

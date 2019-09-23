@@ -1,5 +1,4 @@
-export {};
-import express = require('express');
+const express = require('express');
 const router = express.Router();
 
 const peopleQueries = require(`../models/people.js`);
@@ -12,7 +11,7 @@ async function getPeopleAll() {
     return people;
 }
 
-async function getPersonById(person_id: any) {
+async function getPersonById(person_id) {
     console.log("Getting person by id", person_id);
     const promise = peopleQueries.getById(person_id);
     const [people] = await Promise.all([promise]);
