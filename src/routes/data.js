@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // this is our master list of models
-const models = ['people', 'cities', 'countries'];
+const models = ['countries', 'continents'];
 
 // call `require` for each model and store results keyed by model name
 // each value is the set of queries supported by that model

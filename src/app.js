@@ -5,8 +5,7 @@ const port = 3000;
 const myLogger = require('./middlewares/logger.js');
 app.use(myLogger)
 
-const configs = require('./config.js');
-const routes = configs.getAppConfig().routes;
+const routes = ['continents', 'countries', 'regions', 'cities', 'data'];
 console.log("Routes", routes);
 routes.forEach(r => app.use(`/${r}`, require(`./routes/${r}.js`)));
 

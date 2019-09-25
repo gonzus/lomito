@@ -1,21 +1,21 @@
 const pool = require('../db.js');
 
-const columns = ['id', 'name', 'region_id', 'country_id', 'lat', 'lon', 'population', 'external_id'];
+const columns = ['id', 'name', 'country_id'];
 
 async function getAll() {
     let conn;
     try {
-        console.log("Querying cities");
+        console.log("Querying regions");
         conn = await pool.getConnection();
         console.log("Pool has %d / %d / %d active / total / idle connections",
                     pool.activeConnections(), pool.totalConnections(), pool.idleConnections());
         const rows = await conn.query(`
             SELECT ${columns.join(',')}
-            FROM cities
+            FROM regions
             ORDER BY name`,
         );
         const data = rows.slice();
-        console.log("Queried all cities", data.length);
+        console.log("Queried all regions", data.length);
         return data;
     } catch (err) {
         throw err;
@@ -24,86 +24,64 @@ async function getAll() {
     }
 }
 
-async function getById(city_id) {
+async function getById(region_id) {
     let conn;
     try {
         conn = await pool.getConnection();
-        console.log("Querying cities by id", city_id);
+        console.log("Querying regions by id", region_id);
         const rows = await conn.query(`
             SELECT ${columns.join(',')}
-            FROM cities
+            FROM regions
             WHERE id = ?
-            ORDER BY name`,
-            [city_id],
-        );
-        const data = rows.slice();
-        console.log("Queried cities by id", data.length);
-        return data;
-    } catch (err) {
-        throw err;
-    } finally {
-        if (conn) conn.end();
-    }
-}
-
-async function getByName(city_name) {
-    let conn;
-    try {
-        conn = await pool.getConnection();
-        console.log("Querying cities by name", city_name);
-        const rows = await conn.query(`
-            SELECT ${columns.join(',')}
-            FROM cities
-            WHERE name = ?
-            ORDER BY name`,
-            [city_name],
-        );
-        const data = rows.slice();
-        console.log("Queried cities by name", data.length);
-        return data;
-    } catch (err) {
-        throw err;
-    } finally {
-        if (conn) conn.end();
-    }
-}
-
-async function getLikeName(city_name) {
-    let conn;
-    try {
-        conn = await pool.getConnection();
-        console.log("Querying cities like name", city_name);
-        const rows = await conn.query(`
-            SELECT ${columns.join(',')}
-            FROM cities
-            WHERE name COLLATE utf8mb4_0900_ai_ci LIKE ?
-            ORDER BY name`,
-            [city_name],
-        );
-        const data = rows.slice();
-        console.log("Queried cities like name", data.length);
-        return data;
-    } catch (err) {
-        throw err;
-    } finally {
-        if (conn) conn.end();
-    }
-}
-
-async function getByRegionId(region_id) {
-    let conn;
-    try {
-        conn = await pool.getConnection();
-        console.log("Querying cities by region_id", region_id);
-        const rows = await conn.query(`
-            SELECT ${columns.join(',')}
-            FROM cities
-            WHERE region_id = ?
             ORDER BY name`,
             [region_id],
         );
         const data = rows.slice();
-        console.log("Queried cities by region_id", data.length);
+        console.log("Queried regions by id", data.length);
+        return data;
+    } catch (err) {
+        throw err;
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
+async function getByName(region_name) {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        console.log("Querying regions by name", region_name);
+        const rows = await conn.query(`
+            SELECT ${columns.join(',')}
+            FROM regions
+            WHERE name = ?
+            ORDER BY name`,
+            [region_name],
+        );
+        const data = rows.slice();
+        console.log("Queried regions by name", data.length);
+        return data;
+    } catch (err) {
+        throw err;
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
+async function getLikeName(region_name) {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        console.log("Querying regions like name", region_name);
+        const rows = await conn.query(`
+            SELECT ${columns.join(',')}
+            FROM regions
+            WHERE name COLLATE utf8mb4_0900_ai_ci LIKE ?
+            ORDER BY name`,
+            [region_name],
+        );
+        const data = rows.slice();
+        console.log("Queried regions like name", data.length);
         return data;
     } catch (err) {
         throw err;
@@ -116,16 +94,16 @@ async function getByCountryId(country_id) {
     let conn;
     try {
         conn = await pool.getConnection();
-        console.log("Querying cities by country_id", country_id);
+        console.log("Querying regions by country_id", country_id);
         const rows = await conn.query(`
             SELECT ${columns.join(',')}
-            FROM cities
+            FROM regions
             WHERE country_id = ?
             ORDER BY name`,
             [country_id],
         );
         const data = rows.slice();
-        console.log("Queried cities by country_id", data.length);
+        console.log("Queried regions by country_id", data.length);
         return data;
     } catch (err) {
         throw err;
@@ -134,4 +112,4 @@ async function getByCountryId(country_id) {
     }
 }
 
-module.exports = { getAll, getById, getByName, getLikeName, getByRegionId, getByCountryId };
+module.exports = { getAll, getById, getByName, getLikeName, getByCountryId };

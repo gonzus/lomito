@@ -3,26 +3,11 @@ const router = express.Router();
 
 const citiesQueries = require(`../models/cities.js`);
 
-async function getCitiesAll() {
-    console.log("Getting all cities");
-    const promise = citiesQueries.getAll();
-    const [cities] = await Promise.all([promise]);
-    console.log("Got cities");
-    return cities;
-}
-
-async function getCityById(city_id) {
-    console.log("Getting city by id", city_id);
-    const promise = citiesQueries.getById(city_id);
-    const [city] = await Promise.all([promise]);
-    console.log("Got city by id");
-    return city;
-}
-
 router.get('/all', (req, res) => {
     (async function(){
-        const data = await getCitiesAll();
-        res.json(data);
+        const promise = citiesQueries.getAll();
+        const [cities] = await Promise.all([promise]);
+        res.json(cities);
     })();
 });
 
@@ -33,8 +18,53 @@ router.get('/by_id', (req, res) => {
         return;
     }
     (async function() {
-        const data = await getCityById(city_id);
-        res.json(data);
+        const promise = citiesQueries.getById(city_id);
+        const [cities] = await Promise.all([promise]);
+        res.json(cities);
+    })();
+});
+
+router.get('/by_name', (req, res) => {
+    const city_name = req.query.city_name || req.query.name;
+    (async function() {
+        const promise = citiesQueries.getByName(city_name);
+        const [cities] = await Promise.all([promise]);
+        res.json(cities);
+    })();
+});
+
+router.get('/like_name', (req, res) => {
+    const city_name = req.query.city_name || req.query.name;
+    (async function() {
+        const promise = citiesQueries.getLikeName(city_name);
+        const [cities] = await Promise.all([promise]);
+        res.json(cities);
+    })();
+});
+
+router.get('/by_region_id', (req, res) => {
+    const region_id = req.query.region_id || req.query.id;
+    if (!/^[0-9]+$/.test(region_id)) {
+        res.end();
+        return;
+    }
+    (async function() {
+        const promise = citiesQueries.getByRegionId(region_id);
+        const [cities] = await Promise.all([promise]);
+        res.json(cities);
+    })();
+});
+
+router.get('/by_country_id', (req, res) => {
+    const country_id = req.query.country_id || req.query.id;
+    if (!/^[0-9]+$/.test(country_id)) {
+        res.end();
+        return;
+    }
+    (async function() {
+        const promise = citiesQueries.getByCountryId(country_id);
+        const [cities] = await Promise.all([promise]);
+        res.json(cities);
     })();
 });
 

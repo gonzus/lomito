@@ -46,13 +46,4 @@ function getPoolConfig(database, limit) {
     return pool_config;
 }
 
-function getAppConfig() {
-    const routes = ["people", "cities", "countries", "data"];
-    if (Object.keys(config).length > 1) {
-        routes.push("rr");
-    }
-
-    return { routes };
-}
-
-module.exports = { getPoolConfig, getAppConfig };
+module.exports = { getPoolConfig };
