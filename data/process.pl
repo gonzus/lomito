@@ -343,6 +343,24 @@ my %cities_with_duplicates = (
     },
 );
 
+my %region_names = (
+    "Chile" => {
+        "Chillán" => "Ñuble",
+    },
+    "Belarus" => {
+        "Minsk" => "Minsk Voblasć",
+    },
+    "United Kingdom" => {
+        "London" => "Greater London",
+    },
+    "Norway" => {
+        "Trondheim" => "Trøndelag",
+        "Rørvik" => "Vikna",
+        "Namsos" => "Trøndelag",
+        "Steinkjer" => "Trøndelag",
+    },
+);
+
 exit main();
 
 sub main {
@@ -374,6 +392,11 @@ sub process_csv() {
         my $region_name = $line->{admin_name} || 'OTHER';
         my $city_name = $line->{city};
         next unless $country_name && $region_name && $city_name;
+
+        if ($region_name eq 'OTHER' && exists $region_names{$country_name}{$city_name}) {
+            $region_name = $region_names{$country_name}{$city_name};
+            printf STDERR ("Using region name [%s] for [%s] [%s]\n", $region_name, $country_name, $city_name);
+        }
 
         $country_name = $translation{$country_name} if exists $translation{$country_name};
         ++$countries_seen{$country_name};
@@ -533,9 +556,9 @@ sub process_csv() {
     printf("begin;\n");
     $pos = 0;
     foreach my $id (sort keys %continents) {
+        ++$pos;
         printf("INSERT INTO continents (id, name) VALUES (%d, \"%s\");\n",
                $id, $continents{$id});
-        ++$pos;
     }
     printf("commit;\n");
     printf("-- %d continents\n", $pos);
@@ -545,8 +568,9 @@ sub process_csv() {
     printf("begin;\n");
     $pos = 0;
     foreach my $country (@countries) {
+        ++$pos;
         printf("INSERT INTO countries (id, name, continent_id, iso2, iso3) VALUES (%d, \"%s\", %d, \"%s\", \"%s\");\n",
-               ++$pos, $country->{name}, $country->{continent_id}, $country->{iso2}, $country->{iso3});
+               $country->{id} + 1, $country->{name}, $country->{continent_id}, $country->{iso2}, $country->{iso3});
     }
     printf("commit;\n");
     printf("-- %d countries\n", $pos);
@@ -556,8 +580,9 @@ sub process_csv() {
     printf("begin;\n");
     $pos = 0;
     foreach my $region (@regions) {
+        ++$pos;
         printf("INSERT INTO regions (id, name, country_id) VALUES (%d, \"%s\", %d);\n",
-               ++$pos, $region->{name}, $region->{country_id} + 1);
+               $region->{id} + 1, $region->{name}, $region->{country_id} + 1);
     }
     printf("commit;\n");
     printf("-- %d regions\n", $pos);
@@ -567,12 +592,13 @@ sub process_csv() {
     printf("begin;\n");
     $pos = 0;
     foreach my $city (@cities) {
+        ++$pos;
         if ($city->{deleted}) {
-            printf STDERR ("Skipping deleted city %d [%s]\n", $city->{id}, $city->{name});
+            printf STDERR ("Skipping deleted city %d [%s]\n", $city->{id} + 1, $city->{name});
             next;
         }
         printf("INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (%d, \"%s\", %d, %d, %f, %f, %d, \"%s\");\n",
-               ++$pos, $city->{name}, $city->{region_id} + 1, $city->{country_id} + 1,
+               $city->{id} + 1, $city->{name}, $city->{region_id} + 1, $city->{country_id} + 1,
                $city->{lat}, $city->{lon}, $city->{population}, $city->{external_id});
     }
     printf("commit;\n");
