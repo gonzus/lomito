@@ -156,4 +156,31 @@ async function getByContinentId(continent_id) {
     }
 }
 
-module.exports = { getAll, getById, getByName, getLikeName, getByIso2, getByIso3, getByContinentId };
+async function getMostPopulatedCountries(population_min) {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        console.log("Querying most populated countries", population_min);
+        const named_columns = columns.map(c => `CO.${c}`);
+        const rows = await conn.query(`
+            SELECT ${named_columns.join(",")}, SUM(CI.population) AS population
+            FROM countries CO JOIN cities CI on CO.id = CI.country_id
+            GROUP BY ${named_columns}
+            HAVING population > ?
+            ORDER BY name`,
+            [population_min],
+        );
+        const data = rows.slice();
+        console.log("Queried most populated countries", data.length);
+        return data;
+    } catch (err) {
+        throw err;
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
+module.exports = {
+    getAll, getById, getByName, getLikeName, getByIso2, getByIso3, getByContinentId,
+    getMostPopulatedCountries,
+};

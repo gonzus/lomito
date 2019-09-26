@@ -73,4 +73,17 @@ router.get('/by_continent_id', (req, res) => {
     })();
 });
 
+router.get('/most_populated', (req, res) => {
+    if (!/^[0-9]+$/.test(req.query.population_min)) {
+        res.end();
+        return;
+    }
+    const population_min = Math.max(req.query.population_min, 10000000);
+    (async function() {
+        const promise = countriesQueries.getMostPopulatedCountries(population_min);
+        const [countries] = await Promise.all([promise]);
+        res.json(countries);
+    })();
+});
+
 module.exports = router;
