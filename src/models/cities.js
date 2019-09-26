@@ -156,7 +156,38 @@ async function getMostPopulatedCities(population_min) {
     }
 }
 
+async function getCloseCitiesInDifferentCountries(dlat_max, dlon_max) {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        console.log("Querying close cities in different countries", dlat_max, dlon_max);
+        const city_1_columns = columns.map(c => `city_1.${c}`);
+        const city_2_columns = columns.map(c => `city_2.${c}`);
+        const rows = await conn.query(
+            {
+                nestTables: true, // namespacing for free!
+                sql: `
+                    SELECT ${city_1_columns.concat(city_2_columns).join(',')}
+                    FROM cities city_1,
+                         cities city_2
+                    WHERE city_1.id < city_2.id AND
+                          city_1.country_id != city_2.country_id AND
+                          ABS(city_1.lat - city_2.lat) <= ? AND
+                          ABS(city_1.lon - city_2.lon) <= ?`,
+            },
+            [dlat_max, dlon_max],
+        );
+        const data = rows.slice();
+        console.log("Queried close cities in different countries", data.length);
+        return data;
+    } catch (err) {
+        throw err;
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
 module.exports = {
     getAll, getById, getByName, getLikeName, getByRegionId, getByCountryId,
-    getMostPopulatedCities,
+    getMostPopulatedCities, getCloseCitiesInDifferentCountries,
 };

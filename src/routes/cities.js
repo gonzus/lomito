@@ -81,4 +81,14 @@ router.get('/most_populated', (req, res) => {
     })();
 });
 
+router.get('/close_cities_in_different_countries', (req, res) => {
+    const dlat_max = Math.min(req.query.dlat_max, 0.01);
+    const dlon_max = Math.min(req.query.dlon_max, 0.1);
+    (async function() {
+        const promise = citiesQueries.getCloseCitiesInDifferentCountries(dlat_max, dlon_max);
+        const [cities] = await Promise.all([promise]);
+        res.json(cities);
+    })();
+});
+
 module.exports = router;
