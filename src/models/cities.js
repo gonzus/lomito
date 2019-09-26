@@ -134,4 +134,29 @@ async function getByCountryId(country_id) {
     }
 }
 
-module.exports = { getAll, getById, getByName, getLikeName, getByRegionId, getByCountryId };
+async function getMostPopulatedCities(population_min) {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        console.log("Querying most populated cities", population_min);
+        const rows = await conn.query(`
+            SELECT ${columns.join(',')}
+            FROM cities
+            WHERE population >= ?
+            ORDER BY name`,
+            [population_min],
+        );
+        const data = rows.slice();
+        console.log("Queried most populated cities", data.length);
+        return data;
+    } catch (err) {
+        throw err;
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
+module.exports = {
+    getAll, getById, getByName, getLikeName, getByRegionId, getByCountryId,
+    getMostPopulatedCities,
+};

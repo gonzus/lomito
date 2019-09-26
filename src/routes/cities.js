@@ -68,4 +68,17 @@ router.get('/by_country_id', (req, res) => {
     })();
 });
 
+router.get('/most_populated', (req, res) => {
+    if (!/^[0-9]+$/.test(req.query.population_min)) {
+        res.end();
+        return;
+    }
+    const population_min = Math.max(req.query.population_min, 1000000);
+    (async function() {
+        const promise = citiesQueries.getMostPopulatedCities(population_min);
+        const [cities] = await Promise.all([promise]);
+        res.json(cities);
+    })();
+});
+
 module.exports = router;
