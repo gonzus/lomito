@@ -23,9 +23,12 @@ router.get('/js', (req, res) => {
     const numbers = getNumbers(req, 'n');
     (async function() {
         console.log('Calling model fib JS', numbers);
-        const promises = numbers.map(n => fibQueries.getFibonacciJS([n]));;
+        const promises = numbers.map(n => fibQueries.getFibonacciJS(n));;
+        console.log('Gathered all promises fib JS', promises);
         const results = await Promise.all(promises);
+        console.log('Awaited all promises fib JS', results);
         const data = [].concat.apply([], results);
+        console.log('Got all data fib JS', data);
         res.json(data);
     })();
 });
