@@ -341,6 +341,11 @@ my %cities_with_duplicates = (
         region     => "Māzandarān",
         that_name  => "Sari",
     },
+    "Đà Lạt" => {
+        country    => "Vietnam",
+        region     => "Lâm Đồng",
+        that_name  => "Da Lat",
+    },
 );
 
 my %region_names = (

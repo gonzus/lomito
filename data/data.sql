@@ -8196,7 +8196,7 @@ INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, exter
 INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (3858, "Kon Tum", 2315, 114, 14.383800, 107.983300, 105489, "1704082555");
 INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (3859, "Sơn Tây", 2316, 114, 21.138200, 105.505000, 189547, "1704714941");
 INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (3860, "Hanoi", 2316, 114, 21.033300, 105.850000, 4378000, "1704413791");
-INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (3861, "Da Lat", 2317, 114, 11.930400, 108.420000, 256019, "1704613422");
+INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (3861, "Đà Lạt", 2317, 114, 11.930400, 108.420000, 256019, "1704613422");
 INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (3862, "Haiphong", 2318, 114, 20.830000, 106.680100, 1969000, "1704000623");
 INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (3863, "Hưng Yên", 2319, 114, 20.646400, 106.051100, 0, "1704000203");
 INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (3864, "Cẩm Phả", 2320, 114, 21.040400, 107.320000, 135477, "1704985016");
@@ -8209,7 +8209,6 @@ INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, exter
 INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (3871, "Gia Nghĩa", 2325, 114, 12.004200, 107.690700, 0, "1704361005");
 INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (3872, "Đà Nẵng", 2326, 114, 16.074800, 108.224000, 0, "1704949870");
 INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (3873, "Ho Chi Minh City", 2327, 114, 10.780000, 106.695000, 5314000, "1704774326");
-INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (3874, "Đà Lạt", 2317, 114, 11.935900, 108.442900, 0, "1704933464");
 INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (3875, "Nha Trang", 2304, 114, 12.250000, 109.170000, 411556, "1704497901");
 INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (3876, "Cao Lãnh", 2328, 114, 10.467000, 105.636000, 149837, "1704276832");
 INSERT INTO cities (id, name, region_id, country_id, lat, lon, population, external_id) VALUES (3877, "Đồng Hới", 2329, 114, 17.483300, 106.600000, 189265, "1704323043");

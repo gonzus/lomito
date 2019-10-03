@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS continents;
 CREATE TABLE continents (
     id             int unsigned AUTO_INCREMENT        NOT NULL,
-    name           varchar(100) COLLATE utf8mb4_bin   NOT NULL,
+    name           varchar(100)                       NOT NULL,
 
     PRIMARY KEY                   (id),
     UNIQUE KEY  name              (name)
@@ -10,7 +10,7 @@ CREATE TABLE continents (
 DROP TABLE IF EXISTS countries;
 CREATE TABLE countries (
     id             int unsigned AUTO_INCREMENT        NOT NULL,
-    name           varchar(100) COLLATE utf8mb4_bin   NOT NULL,
+    name           varchar(100)                       NOT NULL,
     continent_id   int unsigned                       NOT NULL,
     iso2           char(2)                            NOT NULL,
     iso3           char(3)                            NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE countries (
 DROP TABLE IF EXISTS regions;
 CREATE TABLE regions (
     id             int unsigned AUTO_INCREMENT        NOT NULL,
-    name           varchar(100) COLLATE utf8mb4_bin   NOT NULL,
+    name           varchar(100)                       NOT NULL,
     country_id     int unsigned                       NOT NULL,
 
     PRIMARY KEY                   (id),
@@ -35,13 +35,13 @@ CREATE TABLE regions (
 DROP TABLE IF EXISTS cities;
 CREATE TABLE cities (
     id             int unsigned AUTO_INCREMENT        NOT NULL,
-    name           varchar(100) COLLATE utf8mb4_bin   NOT NULL,
+    name           varchar(100)                       NOT NULL,
     region_id      int unsigned                       NOT NULL,
     country_id     int unsigned                       NOT NULL,
     lat            double                             NOT NULL,
     lon            double                             NOT NULL,
     population     int unsigned                       NOT NULL,
-    external_id    varchar(20)  CHARACTER SET ASCII   NULL,
+    external_id    varchar(20)  CHARACTER SET ASCII       NULL,
 
     PRIMARY KEY                   (id),
     UNIQUE KEY  name_region       (name, region_id),
