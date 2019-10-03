@@ -1,4 +1,5 @@
 const express = require('express');
+const { check, validationResult } = require('express-validator');
 const router = express.Router();
 
 const citiesQueries = require(`../models/cities.js`);
@@ -11,12 +12,15 @@ router.get('/all', (req, res) => {
     })();
 });
 
-router.get('/by_id', (req, res) => {
-    const city_id = req.query.city_id || req.query.id;
-    if (!/^[0-9]+$/.test(city_id)) {
-        res.end();
-        return;
+router.get('/by_id', [
+    check('id').isInt(),
+], (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
     }
+
+    const city_id = req.query.id;
     (async function() {
         const promise = citiesQueries.getById(city_id);
         const [cities] = await Promise.all([promise]);
@@ -24,8 +28,15 @@ router.get('/by_id', (req, res) => {
     })();
 });
 
-router.get('/by_name', (req, res) => {
-    const city_name = req.query.city_name || req.query.name;
+router.get('/by_name', [
+    check('name').isAlphanumeric().isLength({ min: 3 }),
+], (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
+    }
+
+    const city_name = req.query.name;
     (async function() {
         const promise = citiesQueries.getByName(city_name);
         const [cities] = await Promise.all([promise]);
@@ -33,8 +44,15 @@ router.get('/by_name', (req, res) => {
     })();
 });
 
-router.get('/like_name', (req, res) => {
-    const city_name = req.query.city_name || req.query.name;
+router.get('/like_name', [
+    check('name').isAscii(),
+], (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
+    }
+
+    const city_name = req.query.name;
     (async function() {
         const promise = citiesQueries.getLikeName(city_name);
         const [cities] = await Promise.all([promise]);
@@ -42,12 +60,15 @@ router.get('/like_name', (req, res) => {
     })();
 });
 
-router.get('/by_region_id', (req, res) => {
-    const region_id = req.query.region_id || req.query.id;
-    if (!/^[0-9]+$/.test(region_id)) {
-        res.end();
-        return;
+router.get('/by_region_id', [
+    check('id').isInt(),
+], (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
     }
+
+    const region_id = req.query.id;
     (async function() {
         const promise = citiesQueries.getByRegionId(region_id);
         const [cities] = await Promise.all([promise]);
@@ -55,12 +76,15 @@ router.get('/by_region_id', (req, res) => {
     })();
 });
 
-router.get('/by_country_id', (req, res) => {
-    const country_id = req.query.country_id || req.query.id;
-    if (!/^[0-9]+$/.test(country_id)) {
-        res.end();
-        return;
+router.get('/by_country_id', [
+    check('id').isInt(),
+], (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
     }
+
+    const country_id = req.query.id;
     (async function() {
         const promise = citiesQueries.getByCountryId(country_id);
         const [cities] = await Promise.all([promise]);
@@ -68,12 +92,15 @@ router.get('/by_country_id', (req, res) => {
     })();
 });
 
-router.get('/most_populated', (req, res) => {
-    if (!/^[0-9]+$/.test(req.query.population_min)) {
-        res.end();
-        return;
+router.get('/most_populated', [
+    check('min').isInt(),
+], (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
     }
-    const population_min = Math.max(req.query.population_min, 1000000);
+
+    const population_min = Math.max(req.query.min, 1000000);
     (async function() {
         const promise = citiesQueries.getMostPopulatedCities(population_min);
         const [cities] = await Promise.all([promise]);
@@ -81,11 +108,19 @@ router.get('/most_populated', (req, res) => {
     })();
 });
 
-router.get('/close_cities_in_different_countries', (req, res) => {
-    const dlat_max = Math.min(req.query.dlat_max, 0.01);
-    const dlon_max = Math.min(req.query.dlon_max, 0.1);
+router.get('/close_cities_in_different_countries', [
+    check('delta_lat_max').isFloat({ min: 0, max: 0.01 }),
+    check('delta_lon_max').isFloat({ min: 0, max: 0.1 }),
+], (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
+    }
+
+    const delta_lat_max = Math.min(req.query.delta_lat_max, 0.01);
+    const delta_lon_max = Math.min(req.query.delta_lon_max, 0.1);
     (async function() {
-        const promise = citiesQueries.getCloseCitiesInDifferentCountries(dlat_max, dlon_max);
+        const promise = citiesQueries.getCloseCitiesInDifferentCountries(delta_lat_max, delta_lon_max);
         const [cities] = await Promise.all([promise]);
         res.json(cities);
     })();

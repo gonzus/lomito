@@ -1,4 +1,5 @@
 const express = require('express');
+const { check, validationResult } = require('express-validator');
 const router = express.Router();
 
 const regionsQueries = require(`../models/regions.js`);
@@ -11,12 +12,15 @@ router.get('/all', (req, res) => {
     })();
 });
 
-router.get('/by_id', (req, res) => {
-    const region_id = req.query.region_id || req.query.id;
-    if (!/^[0-9]+$/.test(region_id)) {
-        res.end();
-        return;
+router.get('/by_id', [
+    check('id').isInt(),
+], (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
     }
+
+    const region_id = req.query.id;
     (async function() {
         const promise = regionsQueries.getById(region_id);
         const [regions] = await Promise.all([promise]);
@@ -24,8 +28,15 @@ router.get('/by_id', (req, res) => {
     })();
 });
 
-router.get('/by_name', (req, res) => {
-    const region_name = req.query.region_name || req.query.name;
+router.get('/by_name', [
+    check('name').isAlphanumeric().isLength({ min: 3 }),
+], (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
+    }
+
+    const region_name = req.query.name;
     (async function() {
         const promise = regionsQueries.getByName(region_name);
         const [regions] = await Promise.all([promise]);
@@ -33,8 +44,15 @@ router.get('/by_name', (req, res) => {
     })();
 });
 
-router.get('/like_name', (req, res) => {
-    const region_name = req.query.region_name || req.query.name;
+router.get('/like_name', [
+    check('name').isAscii(),
+], (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
+    }
+
+    const region_name = req.query.name;
     (async function() {
         const promise = regionsQueries.getLikeName(region_name);
         const [regions] = await Promise.all([promise]);
@@ -42,12 +60,15 @@ router.get('/like_name', (req, res) => {
     })();
 });
 
-router.get('/by_country_id', (req, res) => {
-    const country_id = req.query.country_id || req.query.id;
-    if (!/^[0-9]+$/.test(country_id)) {
-        res.end();
-        return;
+router.get('/by_country_id', [
+    check('id').isInt(),
+], (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
     }
+
+    const country_id = req.query.id;
     (async function() {
         const promise = regionsQueries.getByCountryId(country_id);
         const [regions] = await Promise.all([promise]);
