@@ -1,14 +1,18 @@
 const express = require('express');
 const app = express();
-const port = 3000;
 
-const myLogger = require('./middlewares/logger.js');
-app.use(myLogger)
+const { logger } = require('./log.js');
+
+const expressPino = require('express-pino-logger')({
+  logger: logger
+})
+app.use(expressPino);
 
 const routes = ['continents', 'countries', 'regions', 'cities', 'data', 'fibonacci'];
-console.log("Routes", routes);
+logger.info("Routes", routes);
 routes.forEach(r => app.use(`/${r}`, require(`./routes/${r}.js`)));
 
+const port = 3000;
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}!`);
+    logger.info(`Example app listening on port ${port}!`);
 });

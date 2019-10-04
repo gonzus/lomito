@@ -1,6 +1,8 @@
 const os = require('os');
 const fs = require('fs');
 
+const { logger } = require('./log.js');
+
 const config = getConfig();
 
 function getConfig() {
@@ -9,15 +11,15 @@ function getConfig() {
     for (let j = 0; j < dirs.length; j++) {
         const path = dirs[j] + '/' + file;
         if (!fs.existsSync(path)) {
-            console.log(`file ${path} does not exist`);
+            logger.info(`file ${path} does not exist`);
             continue;
         }
         const config = JSON.parse(fs.readFileSync(path, 'utf8'));
         if (!config) {
-            console.log(`could not read JSON config from file ${path}`);
+            logger.info(`could not read JSON config from file ${path}`);
             continue;
         }
-        console.log(`using JSON config file ${path}`);
+        logger.info(`using JSON config file ${path}`);
         return config;
     }
 }
@@ -42,7 +44,7 @@ function getPoolConfig(database, limit) {
         pool_config.connectionLimit = limit;
     }
 
-    console.log('using pool config', pool_config);
+    logger.info('using pool config', pool_config);
     return pool_config;
 }
 
