@@ -10,6 +10,7 @@
     "@types/node": "^12.7.5",
     "execa": "^2.0.4",
     "express": "^4.17.1",
+    "express-pino-logger": "^4.0.0",
     "express-validator": "^6.2.0",
     "mariadb": "^2.1.1",
     "webworker-threads": "^0.7.17"
