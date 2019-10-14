@@ -1,84 +1,75 @@
-const graphql = require('graphql')
-const { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt } = graphql
+const { logger } = require('../log.js');
+const { makeExecutableSchema } = require('graphql-tools');
 
 const posts = [
   {
     title: 'First post',
     description: 'Content of the first post',
-    author: 'Flavio'
+    author: 'Flavio',
   },
   {
     title: 'Second post',
     description: 'Content of the second post',
-    author: 'Roger'
-  }
+    author: 'Roger',
+  },
 ]
 
 const authors = {
   'Flavio': {
     name: 'Flavio',
-    age: 36
+    age: 36,
   },
   'Roger': {
     name: 'Roger',
-    age: 7
-  }
+    age: 7,
+  },
 }
 
-
-const authorType =  new GraphQLObjectType({
-  name: 'Author',
-  fields: {
-    name: {
-      type: GraphQLString
+const types = `
+    type Author {
+        name: String,
+        age: Int,
     },
-    age: {
-      type: GraphQLInt
-    }
-  }
-})
-
-const postType =  new GraphQLObjectType({
-  name: 'Post',
-  fields: {
-    title: {
-      type: GraphQLString
+    type Post {
+        title: String,
+        description: String,
+        author: Author,
     },
-    description: {
-      type: GraphQLString
+    type Query {
+        post(id: Int!): Post,
+        posts: [Post],
+        authors: [Author],
     },
-    author: {
-      type: authorType,
-      resolve: (source, params) => {
-        return authors[source.author]
-      }
-    }
-  }
-})
+`;
 
-const queryType =  new GraphQLObjectType({
-  name: 'Query',
-  fields: {
-    post: {
-      type: postType,
-      args: {
-        id: { type: GraphQLInt }
-      },
-      resolve: (source, {id}) => {
-        return posts[id]
-      }
+const resolvers = {
+    Query: {
+        post: function(query, args) {
+            logger.info("QUERY post", query, args);
+            const id = args.id;
+            return posts[id];
+        },
+        posts: function(query) {
+            logger.info("QUERY posts");
+            return posts;
+        },
+        authors: function(query) {
+            logger.info("QUERY authors");
+            return Object.values(authors);
+        },
     },
-    posts: {
-      type: new GraphQLList(postType),
-      resolve: () => {
-        return posts
-      }
-    }
-  }
-})
+    Post: {
+        author(post) {
+            logger.info("RESOLVE post author", post);
+            const author = post.author;
+            return authors[author];
+        },
+    },
+};
 
-const schema = new GraphQLSchema({
-  query: queryType
-})
+const schema = makeExecutableSchema({
+    typeDefs: types,
+    resolvers,
+});
 
-module.exports = schema
+module.exports = { schema };
