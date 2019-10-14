@@ -14,6 +14,7 @@
     "express-pino-logger": "^4.0.0",
     "express-validator": "^6.2.0",
     "graphql": "^14.5.8",
+    "graphql-tools": "^4.0.5",
     "mariadb": "^2.1.1",
     "webworker-threads": "^0.7.17"
   },
