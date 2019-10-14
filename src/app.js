@@ -10,7 +10,7 @@ app.use(expressPino);
 
 const graphqlHTTP = require('express-graphql')
 
-const schemas = ['hello','blog'];
+const schemas = ['hello','blog','world'];
 logger.info("GraphQL Routes", schemas);
 schemas.forEach(s => {
     const {schema} = require(`./schemas/${s}.js`);
