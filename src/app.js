@@ -22,7 +22,7 @@ schemas.forEach(s => {
 
 const routes = ['continents', 'countries', 'regions', 'cities', 'data', 'fibonacci'];
 logger.info("Routes", routes);
-routes.forEach(r => app.use(`/${r}`, require(`./routes/${r}.js`)));
+routes.forEach(r => app.use(`/sql/${r}`, require(`./routes/${r}.js`)));
 
 const port = 3000;
 app.listen(port, () => {
