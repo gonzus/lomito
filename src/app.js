@@ -8,6 +8,15 @@ const expressPino = require('express-pino-logger')({
 })
 app.use(expressPino);
 
+const graphqlHTTP = require('express-graphql')
+
+const schemas = ['hello','blog'];
+logger.info("GraphQL Routes", schemas);
+schemas.forEach(s => app.use(`/gql/${s}`, graphqlHTTP({
+    schema: require(`./schemas/${s}.js`),
+    graphiql: true
+})));
+
 const routes = ['continents', 'countries', 'regions', 'cities', 'data', 'fibonacci'];
 logger.info("Routes", routes);
 routes.forEach(r => app.use(`/${r}`, require(`./routes/${r}.js`)));
