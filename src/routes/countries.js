@@ -124,4 +124,4 @@ router.get('/most_populated', [
     })();
 });
 
-module.exports = router;
+module.exports = { router };

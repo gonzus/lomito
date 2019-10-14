@@ -126,4 +126,4 @@ router.get('/close_cities_in_different_countries', [
     })();
 });
 
-module.exports = router;
+module.exports = { router };

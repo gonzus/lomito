@@ -33,4 +33,4 @@ router.get('/js', (req, res) => {
     })();
 });
 
-module.exports = router;
+module.exports = { router };

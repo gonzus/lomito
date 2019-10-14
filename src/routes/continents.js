@@ -60,4 +60,4 @@ router.get('/like_name', [
     })();
 });
 
-module.exports = router;
+module.exports = { router };

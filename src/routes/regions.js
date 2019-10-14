@@ -76,4 +76,4 @@ router.get('/by_country_id', [
     })();
 });
 
-module.exports = router;
+module.exports = { router };
