@@ -16,7 +16,8 @@ schemas.forEach(s => {
     const {schema} = require(`./schemas/${s}.js`);
     app.use(`/gql/${s}`, graphqlHTTP({
         schema: schema,
-        graphiql: true,
+        graphiql: process.env.NODE_ENV === 'development',
+        logger: { log: e => logger.error(e) },
     }));
 });
 
