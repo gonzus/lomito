@@ -7,7 +7,7 @@ const regionsQueries = require(`../models/regions.js`);
 const citiesQueries = require(`../models/cities.js`);
 
 const types = `
-    """Continents"""
+    """Continents of the world"""
     type Continent {
         "continent id, a unique integer"
         id: Int,
@@ -17,7 +17,7 @@ const types = `
         countries: [Country],
     },
 
-    """Countries"""
+    """Countries in a continent"""
     type Country {
         "country id, a unique integer"
         id: Int,
@@ -35,7 +35,7 @@ const types = `
         cities: [City],
     },
 
-    """Regions"""
+    """Regions in a country"""
     type Region {
         "region id, a unique integer"
         id: Int,
@@ -47,7 +47,7 @@ const types = `
         cities: [City],
     },
 
-    """Cities"""
+    """Cities in a region/country"""
     type City {
         "city id, a unique integer"
         id: Int,
@@ -69,7 +69,7 @@ const types = `
         country: Country,
     },
 
-    """Queries"""
+    """Queries allowed"""
     type Query {
         "get a continent given its id"
         continent(id: Int!): Continent,
